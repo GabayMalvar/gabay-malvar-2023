@@ -1,11 +1,13 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+# Getting Started with Gabay-Malvar 2023
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
+
+Run this to install application's dependencies.
 
 ### `npm start`
 
@@ -72,5 +74,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 =======
 # gabay-malvar-2023
 
-Check The MASTER Branch
->>>>>>> a103b44af304de5cc70e95d81e3d1d15e555a0a0
