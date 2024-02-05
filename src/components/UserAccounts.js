@@ -25,7 +25,7 @@ import ViewStudent from "./ViewStudent"
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: `#40916C`,
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -141,7 +141,7 @@ export default function UserAccounts(){
   	    // Combine data and set rows
   	    const combinedUsersList = [...usersList, ...tempUsersList].map(user => {
   	      return createData(
-  	        `${user.lastName}, ${user.firstName} ${user.middleName[0]}.`, 
+  	        `${user.lastName}, ${user.firstName} ${user.middleName[0]? `${user.middleName[0]}.` : ""}`, 
   	        user.email, 
   	        user.userType, 
   	        user.status, 
@@ -171,7 +171,7 @@ export default function UserAccounts(){
 			<div className="flex flex-row justify-end gap-4">
 				<button onClick={() => {setAddStudent(true)}} className="h-10 font-bold px-2 border-primary-green text-primary-green border-2 rounded-lg hover:bg-primary-green hover:text-safe-white">Add User</button>
 				<button className="h-10 font-bold px-2 border-primary-green text-primary-green border-2 rounded-lg relative overflow-hidden cursor-pointer hover:bg-primary-green hover:text-safe-white"><CSVImport handleNewUsersAdded={handleNewUsersAdded}/>Import File</button>
-				<button className="h-10 font-bold p-2 border-primary-green text-primary-green border-2 rounded-lg hover:bg-primary-green hover:text-safe-white"><HiAdjustments className="w-5 h-5" /></button>
+				{/*<button className="h-10 font-bold p-2 border-primary-green text-primary-green border-2 rounded-lg hover:bg-primary-green hover:text-safe-white"><HiAdjustments className="w-5 h-5" /></button>*/}
 			</div>
 
 			<TableContainer component={Paper}>

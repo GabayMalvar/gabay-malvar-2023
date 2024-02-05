@@ -218,7 +218,7 @@ export default function StartAssessment({ viewSurvey, setViewSurvey }){
 		      <Table>
 		        <TableBody>
 		          {questions.map((question, index) => (
-		            <TableRow key={question.question + index}>
+		            <TableRow key={question.question + index} sx={{ backgroundColor: answers[index] === "" ?  "inherit" : "#D5F5E6" }}>
 		              <TableCell>{question.question}</TableCell>
 		              <TableCell>
 		                <RadioGroup

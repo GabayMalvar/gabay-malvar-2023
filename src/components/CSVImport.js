@@ -15,8 +15,11 @@ function CSVImport({ handleNewUsersAdded }) {
           if (Object.values(user).every(val => !val.trim())) {
             continue; // Skip empty rows
           }
+          let { firstName, middleName, lastName } = user;
+          const fullName = firstName + lastName + middleName;
+          const nameRegex = /^[A-Za-z]+$/;
 
-          if (!user.firstName || !user.lastName || !user.birthdate || !user.section || !user.schoolYear || !user.gender) {
+          if (!user.firstName || !user.lastName || !user.birthdate || !user.section || !user.schoolYear || !user.gender || !nameRegex.test(fullName) ||  getAge(user.birthdate) <= 15) {
             toast.error("Missing required fields for one or more users.");
             continue; // Skip this user
           }
@@ -37,7 +40,7 @@ function CSVImport({ handleNewUsersAdded }) {
           }
 
           const newUserRef = push(tempUserRef);
-          set(newUserRef, { ...user, defaultPassword, status: "Pending", userType: "Student", birthdate: convertDateFormat(user.birthdate) })
+          set(newUserRef, { ...user, defaultPassword, status: "Pending", userType: "Student", birthdate: convertDateFormat(user.birthdate), age: getAge(user.birthdate)})
             .then(() => {
             	toast.success(`User ${user.firstName} added successfully to pending users.`)
             	const newUserRow = {
@@ -60,6 +63,17 @@ function CSVImport({ handleNewUsersAdded }) {
     const middleInitial = user.middleName && user.middleName.length > 0 ? user.middleName[0] : '';
     return `${user.firstName[0]}${middleInitial}${user.lastName[0]}${convertDateFormat(user.birthdate).replaceAll('-', '').replaceAll('/', '')}`;
   };
+
+  function getAge(dateString) {
+      var today = new Date();
+      var birthDate = new Date(dateString);
+      var age = today.getFullYear() - birthDate.getFullYear();
+      var m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+      }
+      return age;
+  }
 
   function convertDateFormat(dateStr) {
       // Check if the format is already YYYY-MM-DD

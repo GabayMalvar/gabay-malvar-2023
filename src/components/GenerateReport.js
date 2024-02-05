@@ -19,7 +19,7 @@ import TablePagination from '@mui/material/TablePagination';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: `#40916C`,
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -101,8 +101,8 @@ export default function GenerateReport({ isVisible, setIsVisible, data }) {
 	const [schoolYearArr, setSchoolYearArr] = useState([])
 	const [template, setTemplate] = useState("With Assessment");
 
-	function createData(name, email, section, status, imgUrl, uid) {
-	  return { name, email, section, status, imgUrl, uid };
+	function createData(name, email, gender, section, status, imgUrl, uid) {
+	  return { name, email, gender, section, status, imgUrl, uid };
 	}
 
 	const now = new Date();
@@ -143,7 +143,7 @@ export default function GenerateReport({ isVisible, setIsVisible, data }) {
 	    let combinedUsersList = [];
 
 	    const processUser = (user, userId) => {
-	      if (user.status !== 'Active' || user.userType !== 'Student' || (schoolYear !== "All" && user.schoolYear !== schoolYear)) {
+	      if (user.userType !== 'Student' || (schoolYear !== "All" && user.schoolYear !== schoolYear)) {
 	        return; // Skip non-active or non-student users
 	      }
 
@@ -171,6 +171,7 @@ export default function GenerateReport({ isVisible, setIsVisible, data }) {
 	        combinedUsersList.push(createData(
 	          `${user.lastName}, ${user.firstName} ${user.middleInitial || ''}.`,
 	          user.email,
+	          user.gender,
 	          user.section,
 	          user.status,
 	          user.profileImg,
@@ -295,6 +296,7 @@ export default function GenerateReport({ isVisible, setIsVisible, data }) {
 					      <TableRow>
 					        <StyledTableCell>Name</StyledTableCell>
 					        <StyledTableCell>Email</StyledTableCell>
+					        <StyledTableCell>Gender</StyledTableCell>
 					        <StyledTableCell>Section</StyledTableCell>
 					        <StyledTableCell>Status</StyledTableCell>
 					      </TableRow>
@@ -307,6 +309,7 @@ export default function GenerateReport({ isVisible, setIsVisible, data }) {
 					    	      {row.name}
 					    	    </StyledTableCell>
 					    	    <StyledTableCell>{row.email}</StyledTableCell>
+					    	    <StyledTableCell>{row.gender}</StyledTableCell>
 					    	    <StyledTableCell>{row.section}</StyledTableCell>
 					    	     <StyledTableCell>{row.status}</StyledTableCell>
 					    	  </StyledTableRow>
@@ -351,6 +354,7 @@ export default function GenerateReport({ isVisible, setIsVisible, data }) {
 					      <TableRow>
 					        <StyledTableCell>Name</StyledTableCell>
 					        <StyledTableCell>Email</StyledTableCell>
+					        <StyledTableCell>Gender</StyledTableCell>
 					        <StyledTableCell>Section</StyledTableCell>
 					        <StyledTableCell>Status</StyledTableCell>
 					      </TableRow>
@@ -363,6 +367,7 @@ export default function GenerateReport({ isVisible, setIsVisible, data }) {
 					    	      {row.name}
 					    	    </StyledTableCell>
 					    	    <StyledTableCell>{row.email}</StyledTableCell>
+					    	    <StyledTableCell>{row.gender}</StyledTableCell>
 					    	    <StyledTableCell>{row.section}</StyledTableCell>
 					    	     <StyledTableCell>{row.status}</StyledTableCell>
 					    	  </StyledTableRow>

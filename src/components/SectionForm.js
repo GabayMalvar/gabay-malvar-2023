@@ -96,7 +96,7 @@ export default function SectionForm({ setAddSection }){
 		<>
 		<h1 className="text-[20px] md:text-[28px] font-bold text-primary-green">Sections / Add Sections</h1>
 		<div className="flex items-center justify-center">
-			<form className="flex flex-col md:pt-10 gap-4 max-w-[670px] border-2 p-4 rounded-xl md:mt-5"  onSubmit={handleSubmit}>
+			<form className="w-full flex flex-col md:pt-10 gap-4 max-w-[670px] border-2 p-4 rounded-xl md:mt-5"  onSubmit={handleSubmit}>
 
 				<div className="flex flex-col md:flex-row gap-4">
 				  <div className="flex flex-col md:flex-row gap-2">

@@ -24,7 +24,7 @@ import ViewSection from "./ViewSection"
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: `#40916C`,
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -126,7 +126,7 @@ export default function Sections(){
 
 			<div className="flex flex-row justify-end gap-4">
 				<button onClick={() => {setAddSection(true)}} className="h-10 font-bold px-2 border-primary-green text-primary-green border-2 rounded-lg hover:bg-primary-green hover:text-safe-white">Add Section</button>
-				<button className="h-10 font-bold p-2 border-primary-green text-primary-green border-2 rounded-lg hover:bg-primary-green hover:text-safe-white"><HiAdjustments className="w-5 h-5" /></button>
+				{/*<button className="h-10 font-bold p-2 border-primary-green text-primary-green border-2 rounded-lg hover:bg-primary-green hover:text-safe-white"><HiAdjustments className="w-5 h-5" /></button>*/}
 			</div>
 
 			<TableContainer component={Paper}>
