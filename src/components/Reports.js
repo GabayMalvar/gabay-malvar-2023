@@ -81,12 +81,36 @@ const useFetchAllUsersWithTests = (schoolYearFilter) => {
     const fetchAllUsersWithTests = async () => {
       const db = getDatabase();
       const usersRef = ref(db, 'users');
+      const tempUsersRef = ref(db, 'temporary-users');
+
       try {
+        const tempUsersSnapshot = await get(tempUsersRef);
+        let tempUsersList = [];
+        if (tempUsersSnapshot.exists()) {
+          tempUsersSnapshot.forEach((childSnapshot) => {
+            const userKey = childSnapshot.key;
+            const userData = childSnapshot.val();
+            tempUsersList.push({ ...userData, id: userKey });
+          });
+        }
+
         const snapshot = await get(usersRef);
+        let usersList = [];
         if (snapshot.exists()) {
-          const usersData = snapshot.val();
+          snapshot.forEach((childSnapshot) => {
+            const userKey = childSnapshot.key;
+            const userData = childSnapshot.val();
+            usersList.push({ ...userData, id: userKey });
+          });
+        }
+
+        const combinedUsersList = [...usersList, ...tempUsersList]
+
+        if (snapshot.exists()) {
+          const usersData = combinedUsersList
           let participants = 0;
           let nonParticipants = 0;
+          let pendingUsers = 0;
           let categoryPoints = {};
           let sectionCounts = {};
           let newRecommendationCounts = { ...initialRecommendationCounts };
@@ -114,17 +138,26 @@ const useFetchAllUsersWithTests = (schoolYearFilter) => {
                     });
                     sectionCounts[user.section] = (sectionCounts[user.section] || 0) + 1;
                   } else {
-                    nonParticipants++;
+                    if (user.status === "Active") {
+                      nonParticipants++;
+                    } else if (user.status === "Pending") {
+                      pendingUsers++;
+                    }
                   }
                 } else {
-                  console.log("Non Participant:", user.lastName)
-                  nonParticipants++;
+
+                   if (user.status === "Active") {
+                     nonParticipants++;
+                   } else if (user.status === "Pending") {
+                     pendingUsers++;
+                   }
+                   
                 }
               }
             }
           });
           setRecommendationCounts(newRecommendationCounts);
-          setUserParticipation({ participants, nonParticipants });
+          setUserParticipation({ participants, nonParticipants, pendingUsers });
           setHollandCodeTotals(categoryPoints);
           setSectionParticipationCounts(sectionCounts);
         } else {
@@ -154,8 +187,8 @@ export default function Reports() {
   } = useFetchAllUsersWithTests(schoolYear);
 
   const data = [
-    ["Year", "Participants", "Non-Participants"],
-    [new Date().getFullYear().toString(), userParticipation.participants, userParticipation.nonParticipants],
+    ["Year", "Participants", "Non-Participants", "Pending Users"],
+    [new Date().getFullYear().toString(), userParticipation.participants, userParticipation.nonParticipants, userParticipation.pendingUsers],
   ];
 
   const options = {

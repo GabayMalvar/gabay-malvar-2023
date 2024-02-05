@@ -26,7 +26,7 @@ import { HiAdjustments } from "react-icons/hi";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: `#40916C`,
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {

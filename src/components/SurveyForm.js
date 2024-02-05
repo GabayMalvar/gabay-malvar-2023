@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FiTrash2 } from "react-icons/fi";
 
+import GlobalModal from './GlobalModal';
+
 //firebase
 import { auth, db } from '../configs/firebase';
 import { ref, set, push } from "firebase/database";
@@ -29,6 +31,16 @@ const categoryOptions = [
 
 const SurveyForm = ( {setAddSurvey} ) => {
     const [surveyInfo, setSurveyInfo] = useState(initialSurveyState);
+    const [modal, setModal] = useState(false)
+    const [modaData, setModalData] = useState({
+        type: "error",
+        title: `Remove Question #`,
+        message: "question here",
+        confirmTitle: "Remove",
+        cancelTitle: "Back",
+        hideCloseButton: true,
+        removeBlur: true,
+    })
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -91,11 +103,37 @@ const SurveyForm = ( {setAddSurvey} ) => {
       }
     };
 
+    const onClose = () => {
+        setModal(false)
+    }
+
+    const showModal = (questionIndex, question) => {
+        if (surveyInfo.questions.length <= 1) {
+            toast.error('You cannot delete the last question.');
+            return;
+        }
+        setModal(true)
+        setModalData({
+            type: "error",
+            title: `Remove Question #${questionIndex + 1}`,
+            message: `${question}`,
+            confirmTitle: "Remove",
+            confirmNavigation: () => {
+                removeQuestion(questionIndex)
+                onClose()
+            },
+            cancelTitle: "Back",
+            hideCloseButton: true,
+            removeBlur: true,
+        })
+    }
+
     return (
     	<>
+        <GlobalModal isVisible={modal} modalData={modaData} onClose={onClose} />
     	<h1 className="text-[20px] md:text-[28px] font-bold text-primary-green">Survey / Add Survey</h1>
         <div className="flex items-center justify-center">
-        <form className="flex flex-col md:pt-10 gap-4 max-w-[670px] w-full border-2 p-4 rounded-xl md:mt-5" onSubmit={handleSubmit}>
+        <form className="w-full flex flex-col md:pt-10 gap-4 max-w-[670px] w-full border-2 p-4 rounded-xl md:mt-5" onSubmit={handleSubmit}>
             
             <div className="flex flex-col md:flex-row gap-4 justify-between">
                 <label className="font-bold">Survey Name:</label>
@@ -131,7 +169,7 @@ const SurveyForm = ( {setAddSurvey} ) => {
                 />
             </div>
 
-            <div className="flex flex-row gap-4">
+{/*            <div className="flex flex-row gap-4">
                 <label className="font-bold">Allow Retake:</label>
                 <input
                     type="checkbox"
@@ -144,9 +182,9 @@ const SurveyForm = ( {setAddSurvey} ) => {
                         })
                     }
                 />
-            </div>
+            </div>*/}
 
-            <div className="flex flex-row gap-4">
+{/*            <div className="flex flex-row gap-4">
                 <label className="font-bold">Attemps:</label>
                 <input
                     type="number"
@@ -156,7 +194,7 @@ const SurveyForm = ( {setAddSurvey} ) => {
                     value={surveyInfo.attemps}
                     onChange={handleInputChange}
                 />
-            </div>
+            </div>*/}
 
             <div className="flex flex-col md:flex-row gap-4 justify-between">
                 <label className="font-bold">Category:</label>
@@ -196,7 +234,7 @@ const SurveyForm = ( {setAddSurvey} ) => {
                                 </option>
                             ))}
                         </select>
-                        <button type="button" className="h-10 w-10 bg-[#ff2a00] flex justify-center items-center rounded-lg" onClick={() => removeQuestion(index)}>
+                        <button type="button" className="h-10 w-10 bg-[#ff2a00] flex justify-center items-center rounded-lg" onClick={() => showModal(index, question.question)}>
                             <FiTrash2 className="w-5 h-5 text-safe-white" />
                         </button>
                     </div>

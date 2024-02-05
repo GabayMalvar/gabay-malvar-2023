@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../contexts/AuthContext';
 
-import SchoolLogo from '../assets/schoollogo.png';
+import { FaUser, FaLock } from "react-icons/fa";
+
+import loginLogo from '../assets/login.png';
 import GabayLogo from '../assets/gabaylogo.png';
 
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
@@ -115,45 +117,48 @@ export default function Login() {
         }
     };
 
-
     return (
-        <div className="flex flex-col items-center justify-center h-screen">
-            <h2 className="text-[14px] text-center md:text-[20px] text-[#1a6306] font-bold mb-8">Take this self-assessment to discover the best career path for you!</h2>
-            
-            <div className="flex flex-col md:flex-row gap-4 items-center">
-                <img src={GabayLogo} className="w-80 h-auto order-2 md:order-1" />
-                <img src={SchoolLogo} className="w-40 h-40 order-1 md:order-2"/>
-            </div>
 
-            <form onSubmit={handleLogin} className="w-[300px]">
-                <div>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        value={email} 
-                        placeholder="Email"
-                        onChange={(e) => setEmail(e.target.value)} 
-                        className="w-full p-2 border border-gray-300 rounded mt-1" 
-                        required
-                    />
-                </div>
-                <div className="mt-4">
-                    <input 
-                        type="password" 
-                        id="password" 
-                        value={password} 
-                        placeholder="Password"
-                        onChange={(e) => setPassword(e.target.value)} 
-                        className="w-full p-2 border border-gray-300 rounded mt-1" 
-                        required
-                    />
-                </div>
-                <div className="flex flex-row items-center justify-center">
-                <button type="submit" className="font-bold text-safe-white bg-primary-green text-white p-2 mt-4 rounded">
-                    Log In
-                </button>
-                </div>
-            </form>
+        <div className="flex flex-col lg:flex-row lg:gap-4 h-screen max-h-screen">
+            <div className="lg:w-1/2 px-8 pt-4">
+                <img src={loginLogo} className="w-full h-auto"/>
+            </div>
+            <div className="lg:w-1/2 flex flex-col items-center justify-center">
+                <img src={GabayLogo} className="w-60 lg:w-80 h-auto" />
+                <h2 className="text-[14px] text-center md:text-[20px] text-[#1a6306] font-bold mb-8">With GABAY your perfect career is just an assessment away!</h2>
+                <form onSubmit={handleLogin} className="w-[300px]">
+                    <div className="flex flex-row gap-4 border-b-2 px-10 pb-2 border-[#b6b6b6]">
+                        <FaUser className="w-8 h-auto text-[#5AE3A7]"/>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            value={email} 
+                            placeholder="Email"
+                            onChange={(e) => setEmail(e.target.value)} 
+                            className="w-full p-2 mt-1 outline-none" 
+                            required
+                        />
+                    </div>
+                    <div className="flex flex-row gap-4 border-b-2 px-10 pb-2 border-[#b6b6b6] mt-4">
+                        <FaLock className="w-8 h-auto text-[#5AE3A7]"/>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            value={password} 
+                            placeholder="Password"
+                            onChange={(e) => setPassword(e.target.value)} 
+                            className="w-full p-2 mt-1 outline-none"
+                            required
+                        />
+                    </div>
+                    <div className="flex flex-row items-center justify-center">
+                    <button type="submit" className="w-full font-bold text-safe-white bg-primary-green text-white p-2 mt-4 rounded-full">
+                        Sign In
+                    </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    );
+
+    )
 }
